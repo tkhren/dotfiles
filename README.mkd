@@ -1,0 +1,11 @@
+### dotfiles ###
+
+These scripts are configuration files under my home directory.
+
+### Installation ###
+
+Copy to home directory with `rsync`  
+This script may OVERWRITE on your home directory.
+
+    $ bash bootstrap.sh
+
