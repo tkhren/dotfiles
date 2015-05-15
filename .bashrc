@@ -42,10 +42,10 @@ dump() {  # {{{
 
 include() {  # {{{
     if [[ -f $1 ]]; then
-        . "$1"
+        . "$1" && dump CYAN "(include): $1"
         return 0
     else
-        dump YELLOW "(include) Not found: $1"
+        dump RED "(include) Not found: $1"
         return 1
     fi
 }  # }}}
@@ -72,7 +72,7 @@ append_path() {  # {{{
     local path="$1" incd= p=
 
     if [[ ! -d $path ]]; then
-        dump YELLOW "(append_path) Not found: $path"
+        dump RED "(append_path) Not found: $path"
         return 1
     fi
 
@@ -88,7 +88,7 @@ append_path() {  # {{{
 prepend_path() {  # {{{
     local path="$1" incd= p=
     if [[ -d $path ]]; then
-        dump YELLOW "(prepend_path): Not found: $path"
+        dump RED "(prepend_path): Not found: $path"
         return 1
     fi
 
@@ -107,7 +107,7 @@ export_if() {  # {{{
         export $name=$var
         return 0
     else
-        dump YELLOW "(export_if) Failed: $name=$var"
+        dump RED "(export_if) Failed: $name=$var"
         return 1
     fi
 }  # }}}

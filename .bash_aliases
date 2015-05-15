@@ -89,6 +89,9 @@ alias ipy='ipython'
 #==============================================================================
 alias cdfx='cd ~/.mozilla/firefox/*.default'
 
+export_if -d WORK "$HOME/Dropbox/Programming"
+alias cdw="cd $WORK"
+
 #alias memo='cat > /dev/null'
 #alias tree='tree -L 2'
 #alias confcat='sed -e "s/#.*//;/^\s*$/d"'

@@ -7,5 +7,5 @@ These scripts are configuration files under my home directory.
 Copy to home directory with `rsync`  
 This script will **overwite** on your home directory.
 
-    $ bash bootstrap.sh
+    $ sh bootstrap.sh
 
