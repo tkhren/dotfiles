@@ -1,0 +1,143 @@
+# Configuration file for dircolors, a utility to help you set the
+# LS_COLORS environment variable used by GNU ls with the --color option.
+#
+# The keywords COLOR, OPTIONS, and EIGHTBIT (honores by the
+# slackware version of dircolors) are recognized but ignored.
+#
+# Below, there should be one TERM entry for each termtype
+# that is colorizeable
+
+TERM xterm
+
+#TERM linux
+#TERM linux-c
+#TERM console
+#TERM xterm-color
+#TERM xterm-debian
+#TERM rxvt
+#TERM screen
+#TERM screen-v
+#TERM urxvt
+#TERM rxvt-unicode
+
+# Below are the color init strings for the basic file types. A color init
+# string consists of one or more of the following numeric codes:
+# Attribute codes:
+# 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
+# Text color codes:
+# 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
+# Background color codes:
+# 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
+
+NORMAL 00     # global default, although everything should be something.
+FILE 00       # normal file
+DIR 01;34     # directory
+LINK 01;36    # symbolic link.  (If you set this to 'target' instead of a
+              # numerical value, the color is as for the file pointed to.)
+EXEC 01;32    # executable file
+FIFO 40;33    # pipe
+SOCK 01;35    # socket
+DOOR 01;35    # door
+BLK 40;33;01    # block device driver
+CHR 40;33;01    # character device driver
+ORPHAN 40;31;01 # symlink to nonexistent file
+
+# List any file extensions like '.gz' or '.tar' that you would like ls
+# to colorize below. Put the extension, a space, and the color init string.
+# (and any comments you want to add after a '#')
+
+# If you use DOS-style suffixes, you may want to uncomment the following:
+#.cmd 01;32 # executables (bright green)
+#.exe 01;32
+#.com 01;32
+#.btm 01;32
+#.bat 01;32
+
+# archives or compressed (bright red)
+.7z  01;31
+.Z   01;31
+.arj 01;31
+.bz2 01;31
+.deb 01;31
+.gz  01;31
+.jar 01;31
+.lzh 01;31
+.rar 01;31
+.rpm 01;31
+.tar 01;31
+.taz 01;31
+.tbz 01;31
+.tgz 01;31
+.z   01;31
+.zip 01;31
+.app 01;31
+.apk 01;31
+.xpi 01;31
+
+# image formats
+.bmp 00;33
+.eps 00;33
+.fig 00;33
+.gif 00;33
+.jpe 00;33
+.jpeg 00;33
+.jpg 00;33
+.pbm 00;33
+.pgm 00;33
+.png 00;33
+.ppm 00;33
+.svg 00;33
+.tga 00;33
+.tif 00;33
+.tiff 00;33
+.xbm 00;33
+.xcf 00;33
+.xpm 00;33
+
+# audio formats
+.3ga 00;35
+.a52 00;35
+.aac 00;35
+.ac3 00;35
+.ape 00;35
+.asf 00;35
+.dts 00;35
+.fla 00;35
+.flac 00;35
+.m4a 00;35
+.mka 00;35
+.mp3 00;35
+.oga 00;35
+.ogg 00;35
+.oma 00;35
+.ra 00;35
+.ram 00;35
+.spx 00;35
+.tak 00;35
+.tta 00;35
+.wav 00;35
+.wma 00;35
+
+# movie formats
+.asf 00;36
+.avi 00;36
+.divx 00;36
+.dl 00;36
+.fli 00;36
+.flv 00;36
+.gl 00;36
+.mkv 00;36
+.mov 00;36
+.mp4 00;36
+.mpeg 00;36
+.mpeg4 00;36
+.mpg 00;36
+.mpg4 00;36
+.ogv 00;36
+.rm 00;36
+.swf 00;36
+.webm 00;36
+.wmv 00;36
+.xwd 00;36
+
+# vim: ft=dircolors

@@ -1,0 +1,14 @@
+### dotfiles ###
+
+These scripts are configuration files under my home directory.
+
+### Installation ###
+
+Create dotfiles symlink to home directory.
+
+	$ make test
+	$ make deploy
+
+For other options,
+
+	$ make help

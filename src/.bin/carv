@@ -1,0 +1,110 @@
+#!/bin/bash
+
+carv() {
+    local helpmsg='Adapt MP4 files to my car television
+
+Usage:
+    carv [-fnh] [-q N] [-s WIDTH] [-i SRCDIR] [-o DESTDIR]
+
+    -f         Overwrite existsing files
+    -n         Normalize volume level
+    -q N       Quality scale. Lower is better.
+               0 is lossless conversion.
+    -s WIDTH   Width in pixel
+    -i SRCDIR  Directory containing source MP4 (*.mp4) files
+    -o DESTDIR Destination directory'
+
+    local old_optind="$OPTIND"
+    local opt_i= opt_o= opt_q= opt_s= opt_h= opt_n= opt_f="n"
+
+
+    OPTIND=1
+    while getopts i:o:q:s:fnh OPT; do
+        case $OPT in
+            i) opt_i="$OPTARG" ;;
+            o) opt_o="$OPTARG" ;;
+            q) opt_q="$OPTARG" ;;
+            s) opt_s="$OPTARG" ;;
+            f) opt_f="y" ;;
+            n) opt_n="1" ;;
+            h|*) echo "$helpmsg" 1>&2
+               return 1 ;;
+        esac
+    done
+
+    shift $((OPTIND - 1))
+    OPTIND="$old_optind"
+
+
+    [[ -z $opt_i ]] && opt_i="$(pwd)"
+    [[ -z $opt_o ]] && opt_o="$(pwd)/Optimized" && mkdir -p "$opt_o"
+    [[ -z $opt_q ]] && opt_q=3
+    [[ -z $opt_s ]] && opt_s=640
+
+    [[ ! -d $opt_i ]] && {
+        echo "** `$opt_i` was NOT found.\n$helpmsg" 1>&2
+        return 1
+    }
+
+    [[ ! -d $opt_o ]] && {
+        echo "** `$opt_o` was NOT found.\n$helpmsg" 1>&2
+        return 1
+    }
+
+
+    local srcf= destf= v=
+    local dblevel=
+
+    cd "$opt_i"
+
+    for v in *.mp4
+    do
+        [[ $v == "*.mp4" ]] && continue
+
+        srcf="$v"
+        destf="$opt_o/$v"
+
+        echo "Converting... $srcf"
+
+        [[ -n $opt_n ]] && {
+            local dblevel=
+
+            dblevel=$(ffmpeg -i "${srcf}" \
+                             -af "volumedetect" \
+                             -f null /dev/null 2>&1 \
+                    | grep max_volume \
+                    | awk -F': ' '{print $2}' \
+                    | cut -d' ' -f1)
+
+            [[ $(echo "${dblevel} < 0" | bc) == 1 ]] && {
+                dblevel=$(echo "scale=1;-($dblevel)" | bc | sed -e 's/^\./0./g')
+                echo ">>> Normalize volume: ${dblevel}dB"
+
+                ffmpeg -$opt_f \
+                       -i "$srcf" \
+                       -af "volume=${dblevel}dB" \
+                       -c:a aac \
+                       -strict experimental \
+                       -c:v mpeg4 \
+                       -q:v $opt_q \
+                       -vf scale=$opt_s:-1 \
+                       -loglevel quiet \
+                       "$destf"
+
+                continue
+            }
+        }
+
+        ffmpeg -$opt_f \
+               -i "$srcf" \
+               -c:a copy \
+               -c:v mpeg4 \
+               -q:v $opt_q \
+               -vf scale=$opt_s:-1 \
+               -loglevel quiet \
+               "$destf"
+    done
+
+}
+
+carv $@

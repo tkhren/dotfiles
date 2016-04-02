@@ -1,0 +1,62 @@
+#!/bin/bash
+
+vcut() {
+    local helpmsg='Adapt MP4 files to my car television
+
+Usage:
+    vcut -s [START] -e [END] -i INPUT [-o OUTPUT]
+
+    -s START   Time[sec] starting
+    -e END     Time[sec] ending
+    -i INPUT   Source MP4 (*.mp4) file
+    -o OUTPUT  Output file'
+
+    local old_optind="$OPTIND"
+    local opt_i= opt_o= opt_e= opt_s= opt_h=
+
+
+    OPTIND=1
+    while getopts i:o:s:e:h OPT; do
+        case $OPT in
+            i) opt_i="$OPTARG" ;;
+            o) opt_o="$OPTARG" ;;
+            s) opt_s="$OPTARG" ;;
+            e) opt_e="$OPTARG" ;;
+            h|*) echo "$helpmsg" 1>&2
+               return 1 ;;
+        esac
+    done
+
+    shift $((OPTIND - 1))
+    OPTIND="$old_optind"
+
+    [[ -z $opt_i ]] && echo "$helpmsg" && return 1
+    [[ -z $opt_o ]] && opt_o="cut_$opt_i"
+    [[ -z $opt_s ]] && opt_s="00:00:00"
+    [[ -z $opt_e ]] && opt_e="00:00:00"
+
+    [[ ! -f $opt_i ]] && {
+        echo "** $opt_i was NOT found.\n$helpmsg" 1>&2
+        return 1
+    }
+
+    echo "ffmpeg -ss \"$opt_s\" \
+           -i \"$opt_i\" \
+           -to \"$opt_e\" \
+           -copyts \
+           -avoid_negative_ts 1 \
+           -loglevel quiet \
+           \"$opt_o\""
+
+    return
+    ffmpeg -ss "$opt_s" \
+           -i "$opt_i" \
+           -to "$opt_e" \
+           -copyts \
+           -avoid_negative_ts 1 \
+           -loglevel quiet \
+           "$opt_o"
+
+}
+
+vcut "$@"
