@@ -125,7 +125,27 @@ mcd() {  # {{{
 }  # }}}
 
 bm() {  # {{{
-    local helpmsg="Usage: bm [-a NAME] [-d NAME] [NAME]"
+    # Bookmark directory
+    #
+    # $ cd /PATH/TO/DIR
+    # $ bm -a ALIAS
+    # $ bm
+    # ALIAS    /PATH/TO/DIR
+    #
+    # change directory
+    # $ bm ALIAS
+    # $ echo $(bm ALIAS)
+
+    local helpmsg=$(cat << EOS
+Usage: bm [-a NAME] [-d NAME] [NAME]
+
+Jump to the NAME bookmark directory.
+The bookmark list are saved in \$BASH_BOOKMARKS
+
+-a NAME     Add a bookmark of current directory as NAME
+-d NAME     Delete the NAME bookmark
+EOS
+)
     local opt_a= opt_d=
     local name= name_a= name_d=
     local optind_old=$OPTIND
